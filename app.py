@@ -1,11 +1,10 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
-import joblib
-from sklearn.preprocessing import StandardScaler
+import streamlit as st # type: ignore
+import pandas as pd # type: ignore
+import joblib # type: ignore
 
-# Load the trained SVM model
-model = joblib.load("svm_model.pkl")
+# Load the trained SVM model and scaler
+model = joblib.load("svm_model.pkl")  # Trained SVM model
+scaler = joblib.load("scaler.pkl")    # Saved scaler used for preprocessing
 
 # Define the Streamlit application
 st.title("SVM Model Deployment")
@@ -29,9 +28,8 @@ if st.button("Predict"):
         "EstimatedSalary": [estimated_salary]
     })
 
-    # Scale the input data
-    scaler = StandardScaler()
-    input_data_scaled = scaler.fit_transform(input_data)
+    # Scale the input data using the preloaded scaler
+    input_data_scaled = scaler.transform(input_data)
 
     # Make predictions
     prediction = model.predict(input_data_scaled)
